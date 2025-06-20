@@ -6,6 +6,7 @@ import com.example.authdemo.dto.ActorRevenueDto;
 import com.example.authdemo.dto.ActorRNotGDto;
 import com.example.authdemo.dto.ActorCategoryAvgRentalDurationDto;
 import com.example.authdemo.dto.ActorRLongNotGDto;
+import com.example.authdemo.dto.ActorWithAllCoActorsDto;
 import com.example.authdemo.entity.Actor;
 import com.example.authdemo.service.ActorService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -64,6 +65,12 @@ public class ActorController {
     public List<ActorRLongNotGDto> getActorsInRLongNotInG() {
         return actorService.getActorsInRLongNotInG().stream()
                 .map(a -> new ActorRLongNotGDto(a.getActorName()))
+                .collect(Collectors.toList());
+    }
+    @GetMapping("/with-all-co-actors")
+    public List<ActorWithAllCoActorsDto> getActorsWithAllCoActors() {
+        return actorService.getActorsWithAllCoActors().stream()
+                .map(a -> new ActorWithAllCoActorsDto(a.getActorId(), a.getActorName(), a.getCoActorName(), a.getFilmsTogether()))
                 .collect(Collectors.toList());
     }
 }

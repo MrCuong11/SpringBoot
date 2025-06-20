@@ -41,4 +41,8 @@ public class ActorService {
     public List<ActorRepository.ActorRLongNotGProjection> getActorsInRLongNotInG() {
         return actorRepository.findActorsInRLongNotInG();
     }
+
+    public List<ActorRepository.ActorWithAllCoActorsProjection> getActorsWithAllCoActors() {
+        return actorRepository.findActorsWithAllCoActors();
+    }
 }

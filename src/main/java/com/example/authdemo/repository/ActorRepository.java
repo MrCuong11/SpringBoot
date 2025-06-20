@@ -104,4 +104,21 @@ public interface ActorRepository extends JpaRepository<Actor, Integer> {
     interface ActorRLongNotGProjection {
         String getActorName();
     }
+
+    @Query(value = "SELECT a1.actor_id AS actorId, CONCAT(a1.first_name, ' ', a1.last_name) AS actorName, CONCAT(a2.first_name, ' ', a2.last_name) AS coActorName, COUNT(DISTINCT fa1.film_id) AS filmsTogether " +
+            "FROM actor a1 " +
+            "JOIN film_actor fa1 ON a1.actor_id = fa1.actor_id " +
+            "JOIN film_actor fa2 ON fa1.film_id = fa2.film_id " +
+            "JOIN actor a2 ON fa2.actor_id = a2.actor_id " +
+            "WHERE a1.actor_id <> a2.actor_id " +
+            "GROUP BY a1.actor_id, actorName, coActorName " +
+            "HAVING COUNT(DISTINCT fa1.film_id) >= (SELECT COUNT(*) - 1 FROM actor)", nativeQuery = true)
+    List<ActorWithAllCoActorsProjection> findActorsWithAllCoActors();
+
+    interface ActorWithAllCoActorsProjection {
+        Integer getActorId();
+        String getActorName();
+        String getCoActorName();
+        Long getFilmsTogether();
+    }
 }
