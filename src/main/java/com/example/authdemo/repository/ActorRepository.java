@@ -70,4 +70,21 @@ public interface ActorRepository extends JpaRepository<Actor, Integer> {
         String getFirstName();
         String getLastName();
     }
+
+    @Query(value = "SELECT a.actor_id AS actorId, CONCAT(a.first_name, ' ', a.last_name) AS actorName, c.category_id AS categoryId, c.name AS categoryName, AVG(f.rental_duration) AS avgRentalDuration " +
+            "FROM actor a " +
+            "JOIN film_actor fa ON a.actor_id = fa.actor_id " +
+            "JOIN film f ON fa.film_id = f.film_id " +
+            "JOIN film_category fc ON f.film_id = fc.film_id " +
+            "JOIN category c ON fc.category_id = c.category_id " +
+            "GROUP BY a.actor_id, c.category_id, actorName, categoryName", nativeQuery = true)
+    List<ActorCategoryAvgRentalDurationProjection> findActorCategoryAvgRentalDuration();
+
+    interface ActorCategoryAvgRentalDurationProjection {
+        Integer getActorId();
+        String getActorName();
+        Short getCategoryId();
+        String getCategoryName();
+        Double getAvgRentalDuration();
+    }
 }

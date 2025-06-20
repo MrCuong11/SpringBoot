@@ -4,6 +4,7 @@ import com.example.authdemo.dto.ActorFilmCountDto;
 import com.example.authdemo.dto.ActorAllCategoryDto;
 import com.example.authdemo.dto.ActorRevenueDto;
 import com.example.authdemo.dto.ActorRNotGDto;
+import com.example.authdemo.dto.ActorCategoryAvgRentalDurationDto;
 import com.example.authdemo.entity.Actor;
 import com.example.authdemo.service.ActorService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -50,6 +51,12 @@ public class ActorController {
     public List<ActorRNotGDto> getActorsInRNotInG() {
         return actorService.getActorsInRNotInG().stream()
                 .map(a -> new ActorRNotGDto(a.getFirstName(), a.getLastName()))
+                .collect(Collectors.toList());
+    }
+    @GetMapping("/category-avg-rental-duration")
+    public List<ActorCategoryAvgRentalDurationDto> getActorCategoryAvgRentalDuration() {
+        return actorService.getActorCategoryAvgRentalDuration().stream()
+                .map(a -> new ActorCategoryAvgRentalDurationDto(a.getActorId(), a.getActorName(), a.getCategoryId(), a.getCategoryName(), a.getAvgRentalDuration()))
                 .collect(Collectors.toList());
     }
 }

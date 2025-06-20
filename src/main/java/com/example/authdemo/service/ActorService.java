@@ -33,4 +33,8 @@ public class ActorService {
     public List<ActorRepository.ActorRNotGProjection> getActorsInRNotInG() {
         return actorRepository.findActorsInRNotInG();
     }
+
+    public List<ActorRepository.ActorCategoryAvgRentalDurationProjection> getActorCategoryAvgRentalDuration() {
+        return actorRepository.findActorCategoryAvgRentalDuration();
+    }
 }
