@@ -16,8 +16,17 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
             "LIMIT 5", nativeQuery = true)
     List<TopRentedFilmProjection> findTop5MostRentedFilms();
 
+
     interface TopRentedFilmProjection {
         String getTitle();
         Long getRentalCount();
+    }
+
+    @Query(value = "SELECT f.title AS title, f.rating AS rating, f.length AS length FROM film f WHERE f.rating = 'PG-13' AND f.length > 120", nativeQuery = true)
+    List<FilmPG13LongProjection> findPG13FilmsLongerThan120();
+    interface FilmPG13LongProjection {
+        String getTitle();
+        String getRating();
+        Integer getLength();
     }
 } 

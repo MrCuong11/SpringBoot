@@ -21,4 +21,8 @@ public class FilmService {
     public List<FilmRepository.TopRentedFilmProjection> getTop5MostRentedFilms() {
         return filmRepository.findTop5MostRentedFilms();
     }
+
+    public List<FilmRepository.FilmPG13LongProjection> getPG13FilmsLongerThan120() {
+        return filmRepository.findPG13FilmsLongerThan120();
+    }
 } 
