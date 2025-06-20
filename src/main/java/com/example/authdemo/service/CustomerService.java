@@ -35,4 +35,8 @@ public class CustomerService {
     public List<CustomerRepository.CustomerLargeTransactionProjection> getCustomersWithLargeTransactions() {
         return customerRepository.findCustomersWithLargeTransactions();
     }
+
+    public List<CustomerRepository.CustomerFilmCountPerCategoryProjection> getCustomersRentedFromAllCategoriesWithCount() {
+        return customerRepository.findCustomersRentedFromAllCategoriesWithCount();
+    }
 } 

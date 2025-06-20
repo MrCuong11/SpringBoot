@@ -106,4 +106,28 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
         Long getFilmsRented();
         java.math.BigDecimal getTotalFee();
     }
+
+    @Query(value = "SELECT CONCAT(c.first_name, ' ', c.last_name) AS customerName, cat.name AS categoryName, COUNT(*) AS filmsRented " +
+            "FROM customer c " +
+            "JOIN rental r ON c.customer_id = r.customer_id " +
+            "JOIN inventory i ON r.inventory_id = i.inventory_id " +
+            "JOIN film_category fc ON i.film_id = fc.film_id " +
+            "JOIN category cat ON fc.category_id = cat.category_id " +
+            "WHERE c.customer_id IN ( " +
+            "    SELECT r_inner.customer_id " +
+            "    FROM rental r_inner " +
+            "    JOIN inventory i_inner ON r_inner.inventory_id = i_inner.inventory_id " +
+            "    JOIN film_category fc_inner ON i_inner.film_id = fc_inner.film_id " +
+            "    GROUP BY r_inner.customer_id " +
+            "    HAVING COUNT(DISTINCT fc_inner.category_id) = (SELECT COUNT(*) FROM category) " +
+            ") " +
+            "GROUP BY customerName, categoryName " +
+            "ORDER BY customerName, categoryName", nativeQuery = true)
+    List<CustomerFilmCountPerCategoryProjection> findCustomersRentedFromAllCategoriesWithCount();
+
+    interface CustomerFilmCountPerCategoryProjection {
+        String getCustomerName();
+        String getCategoryName();
+        Long getFilmsRented();
+    }
 } 
