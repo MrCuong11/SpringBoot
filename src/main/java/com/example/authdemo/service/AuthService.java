@@ -5,12 +5,11 @@ import com.example.authdemo.dto.*;
 import com.example.authdemo.entity.*;
 import com.example.authdemo.repository.RoleRepository;
 import com.example.authdemo.repository.UserRepository;
-import com.example.authdemo.sercurity.JwtService;
+import com.example.authdemo.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.Set;
 
 @Service

@@ -1,7 +1,6 @@
 package com.example.authdemo.config;
 
-import com.example.authdemo.repository.UserRepository;
-import com.example.authdemo.sercurity.JwtAuthenticationFilter;
+import com.example.authdemo.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.*;
 import org.springframework.security.authentication.*;
