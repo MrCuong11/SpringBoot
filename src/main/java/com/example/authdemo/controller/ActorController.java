@@ -2,6 +2,8 @@ package com.example.authdemo.controller;
 
 import com.example.authdemo.dto.ActorFilmCountDto;
 import com.example.authdemo.dto.ActorAllCategoryDto;
+import com.example.authdemo.dto.ActorRevenueDto;
+import com.example.authdemo.dto.ActorRNotGDto;
 import com.example.authdemo.entity.Actor;
 import com.example.authdemo.service.ActorService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -36,6 +38,18 @@ public class ActorController {
     public List<ActorAllCategoryDto> getActorsInAllCategories() {
         return actorService.getActorsInAllCategories().stream()
                 .map(a -> new ActorAllCategoryDto(a.getFirstName(), a.getLastName()))
+                .collect(Collectors.toList());
+    }
+    @GetMapping("/total-revenue")
+    public List<ActorRevenueDto> getActorsTotalRevenue() {
+        return actorService.getActorsTotalRevenue().stream()
+                .map(a -> new ActorRevenueDto(a.getFirstName(), a.getLastName(), a.getTotalRevenue()))
+                .collect(Collectors.toList());
+    }
+    @GetMapping("/r-not-g")
+    public List<ActorRNotGDto> getActorsInRNotInG() {
+        return actorService.getActorsInRNotInG().stream()
+                .map(a -> new ActorRNotGDto(a.getFirstName(), a.getLastName()))
                 .collect(Collectors.toList());
     }
 }

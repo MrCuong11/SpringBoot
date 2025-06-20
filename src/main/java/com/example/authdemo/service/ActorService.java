@@ -25,4 +25,12 @@ public class ActorService {
     public List<ActorRepository.ActorAllCategoryProjection> getActorsInAllCategories() {
         return actorRepository.findActorsInAllCategories();
     }
+
+    public List<ActorRepository.ActorRevenueProjection> getActorsTotalRevenue() {
+        return actorRepository.findActorsTotalRevenue();
+    }
+
+    public List<ActorRepository.ActorRNotGProjection> getActorsInRNotInG() {
+        return actorRepository.findActorsInRNotInG();
+    }
 }
