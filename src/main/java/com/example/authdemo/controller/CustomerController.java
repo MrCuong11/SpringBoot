@@ -3,6 +3,7 @@ package com.example.authdemo.controller;
 import com.example.authdemo.dto.CustomerAddressDto;
 import com.example.authdemo.dto.TopCustomerRevenueDto;
 import com.example.authdemo.dto.CustomerAllCategoryRentalDto;
+import com.example.authdemo.dto.CustomerRepeatRentalDto;
 import com.example.authdemo.service.CustomerService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +39,13 @@ public class CustomerController {
     public List<CustomerAllCategoryRentalDto> getCustomersRentedAllCategories() {
         return customerService.getCustomersRentedAllCategories().stream()
                 .map(c -> new CustomerAllCategoryRentalDto(c.getFirstName(), c.getLastName(), c.getEmail()))
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/repeat-rentals")
+    public List<CustomerRepeatRentalDto> getCustomersRentedSameFilmMoreThanOnce() {
+        return customerService.getCustomersRentedSameFilmMoreThanOnce().stream()
+                .map(c -> new CustomerRepeatRentalDto(c.getFirstName(), c.getLastName(), c.getFilmTitle(), c.getRentalCount()))
                 .collect(Collectors.toList());
     }
 } 

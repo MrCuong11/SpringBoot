@@ -50,4 +50,20 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
         String getLastName();
         String getEmail();
     }
+
+    @Query(value = "SELECT c.first_name AS firstName, c.last_name AS lastName, f.title AS filmTitle, COUNT(*) AS rentalCount " +
+            "FROM customer c " +
+            "JOIN rental r ON c.customer_id = r.customer_id " +
+            "JOIN inventory i ON r.inventory_id = i.inventory_id " +
+            "JOIN film f ON i.film_id = f.film_id " +
+            "GROUP BY c.customer_id, f.film_id, f.title, c.first_name, c.last_name " +
+            "HAVING COUNT(*) > 1", nativeQuery = true)
+    List<CustomerRepeatRentalProjection> findCustomersRentedSameFilmMoreThanOnce();
+
+    interface CustomerRepeatRentalProjection {
+        String getFirstName();
+        String getLastName();
+        String getFilmTitle();
+        Long getRentalCount();
+    }
 } 
