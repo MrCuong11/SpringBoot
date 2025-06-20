@@ -29,4 +29,8 @@ public class FilmService {
     public List<FilmRepository.FilmRentedByManyOnceProjection> getFilmsRentedByMoreThan50CustomersOnce() {
         return filmRepository.findFilmsRentedByMoreThan50CustomersOnce();
     }
+
+    public List<FilmRepository.FilmRentedByAllActionCustomersProjection> getFilmsRentedByAllActionCustomers() {
+        return filmRepository.findFilmsRentedByAllActionCustomers();
+    }
 } 

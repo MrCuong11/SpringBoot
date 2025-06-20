@@ -6,6 +6,7 @@ import com.example.authdemo.dto.TopRentedFilmDto;
 import com.example.authdemo.dto.FilmPG13LongDto;
 import com.example.authdemo.dto.FilmDto;
 import com.example.authdemo.dto.FilmRentedByManyOnceDto;
+import com.example.authdemo.dto.FilmRentedByAllActionCustomersDto;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,6 +50,13 @@ public class FilmController {
     public List<FilmRentedByManyOnceDto> getFilmsRentedByMoreThan50CustomersOnce() {
         return filmService.getFilmsRentedByMoreThan50CustomersOnce().stream()
                 .map(f -> new FilmRentedByManyOnceDto(f.getTitle()))
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/rented-by-all-action-customers")
+    public List<FilmRentedByAllActionCustomersDto> getFilmsRentedByAllActionCustomers() {
+        return filmService.getFilmsRentedByAllActionCustomers().stream()
+                .map(f -> new FilmRentedByAllActionCustomersDto(f.getTitle()))
                 .collect(Collectors.toList());
     }
 } 

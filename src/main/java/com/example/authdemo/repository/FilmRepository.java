@@ -48,4 +48,32 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
     interface FilmRentedByManyOnceProjection {
         String getTitle();
     }
+
+    @Query(value = "SELECT f.title AS title " +
+            "FROM film f " +
+            "JOIN inventory i ON f.film_id = i.film_id " +
+            "JOIN rental r ON i.inventory_id = r.inventory_id " +
+            "JOIN customer c ON r.customer_id = c.customer_id " +
+            "WHERE r.customer_id IN ( " +
+            "    SELECT DISTINCT r2.customer_id " +
+            "    FROM rental r2 " +
+            "    JOIN inventory i2 ON r2.inventory_id = i2.inventory_id " +
+            "    JOIN film_category fc2 ON i2.film_id = fc2.film_id " +
+            "    JOIN category cat ON fc2.category_id = cat.category_id " +
+            "    WHERE cat.name = 'Action' " +
+            ") " +
+            "GROUP BY f.film_id, f.title " +
+            "HAVING COUNT(DISTINCT r.customer_id) = ( " +
+            "    SELECT COUNT(DISTINCT r3.customer_id) " +
+            "    FROM rental r3 " +
+            "    JOIN inventory i3 ON r3.inventory_id = i3.inventory_id " +
+            "    JOIN film_category fc3 ON i3.film_id = fc3.film_id " +
+            "    JOIN category cat2 ON fc3.category_id = cat2.category_id " +
+            "    WHERE cat2.name = 'Action' " +
+            ")", nativeQuery = true)
+    List<FilmRentedByAllActionCustomersProjection> findFilmsRentedByAllActionCustomers();
+
+    interface FilmRentedByAllActionCustomersProjection {
+        String getTitle();
+    }
 } 
