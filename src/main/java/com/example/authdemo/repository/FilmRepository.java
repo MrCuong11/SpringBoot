@@ -29,4 +29,23 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
         String getRating();
         Integer getLength();
     }
+
+    @Query(value = "SELECT f.title AS title " +
+            "FROM film f " +
+            "JOIN inventory i ON f.film_id = i.film_id " +
+            "JOIN rental r ON i.inventory_id = r.inventory_id " +
+            "GROUP BY f.film_id, f.title " +
+            "HAVING COUNT(DISTINCT r.customer_id) > 50 " +
+            "AND f.film_id NOT IN ( " +
+            "    SELECT i2.film_id " +
+            "    FROM inventory i2 " +
+            "    JOIN rental r2 ON i2.inventory_id = r2.inventory_id " +
+            "    GROUP BY i2.film_id, r2.customer_id " +
+            "    HAVING COUNT(*) > 1 " +
+            ")", nativeQuery = true)
+    List<FilmRentedByManyOnceProjection> findFilmsRentedByMoreThan50CustomersOnce();
+
+    interface FilmRentedByManyOnceProjection {
+        String getTitle();
+    }
 } 

@@ -25,4 +25,8 @@ public class FilmService {
     public List<FilmRepository.FilmPG13LongProjection> getPG13FilmsLongerThan120() {
         return filmRepository.findPG13FilmsLongerThan120();
     }
+
+    public List<FilmRepository.FilmRentedByManyOnceProjection> getFilmsRentedByMoreThan50CustomersOnce() {
+        return filmRepository.findFilmsRentedByMoreThan50CustomersOnce();
+    }
 } 
