@@ -7,6 +7,7 @@ import com.example.authdemo.dto.CustomerRepeatRentalDto;
 import com.example.authdemo.dto.CustomerFirstTimeCategoryRentalDto;
 import com.example.authdemo.dto.CustomerLargeTransactionDto;
 import com.example.authdemo.dto.CustomerFilmCountPerCategoryDto;
+import com.example.authdemo.dto.CustomerNameDto;
 import com.example.authdemo.service.CustomerService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -70,6 +71,13 @@ public class CustomerController {
     public List<CustomerFilmCountPerCategoryDto> getCustomersRentedFromAllCategoriesWithCount() {
         return customerService.getCustomersRentedFromAllCategoriesWithCount().stream()
                 .map(c -> new CustomerFilmCountPerCategoryDto(c.getCustomerName(), c.getCategoryName(), c.getFilmsRented()))
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/new-category-no-long-films")
+    public List<CustomerNameDto> getCustomersWithNewCategoryAndNoLongFilms() {
+        return customerService.getCustomersWithNewCategoryAndNoLongFilms().stream()
+                .map(c -> new CustomerNameDto(c.getCustomerName()))
                 .collect(Collectors.toList());
     }
 } 

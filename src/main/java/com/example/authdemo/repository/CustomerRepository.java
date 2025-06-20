@@ -130,4 +130,38 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
         String getCategoryName();
         Long getFilmsRented();
     }
+
+    @Query(value = "SELECT DISTINCT CONCAT(c.first_name, ' ', c.last_name) AS customerName " +
+            "FROM customer c " +
+            "JOIN rental r ON c.customer_id = r.customer_id " +
+            "JOIN inventory i ON r.inventory_id = i.inventory_id " +
+            "JOIN film f ON i.film_id = f.film_id " +
+            "JOIN film_category fc ON f.film_id = fc.film_id " +
+            "WHERE NOT EXISTS ( " +
+            "    SELECT 1 " +
+            "    FROM rental r2 " +
+            "    JOIN inventory i2 ON r2.inventory_id = i2.inventory_id " +
+            "    JOIN film f2 ON i2.film_id = f2.film_id " +
+            "    WHERE r2.customer_id = c.customer_id AND f2.length > 180 " +
+            ") " +
+            "AND EXISTS ( " +
+            "    SELECT 1 " +
+            "    FROM rental r3 " +
+            "    JOIN inventory i3 ON r3.inventory_id = i3.inventory_id " +
+            "    JOIN film_category fc3 ON i3.film_id = fc3.film_id " +
+            "    WHERE r3.customer_id = c.customer_id " +
+            "    AND fc3.category_id NOT IN ( " +
+            "        SELECT DISTINCT fc4.category_id " +
+            "        FROM rental r4 " +
+            "        JOIN inventory i4 ON r4.inventory_id = i4.inventory_id " +
+            "        JOIN film_category fc4 ON i4.film_id = fc4.film_id " +
+            "        WHERE r4.customer_id = c.customer_id " +
+            "        AND r4.rental_date < r3.rental_date " +
+            "    ) " +
+            ")", nativeQuery = true)
+    List<CustomerNameProjection> findCustomersWithNewCategoryAndNoLongFilms();
+
+    interface CustomerNameProjection {
+        String getCustomerName();
+    }
 } 
