@@ -87,4 +87,21 @@ public interface ActorRepository extends JpaRepository<Actor, Integer> {
         String getCategoryName();
         Double getAvgRentalDuration();
     }
+
+    @Query(value = "SELECT DISTINCT CONCAT(a.first_name, ' ', a.last_name) AS actorName " +
+            "FROM actor a " +
+            "JOIN film_actor fa ON a.actor_id = fa.actor_id " +
+            "JOIN film f ON fa.film_id = f.film_id " +
+            "WHERE f.rating = 'R' AND f.length > 120 " +
+            "AND a.actor_id NOT IN ( " +
+            "    SELECT fa2.actor_id " +
+            "    FROM film_actor fa2 " +
+            "    JOIN film f2 ON fa2.film_id = f2.film_id " +
+            "    WHERE f2.rating = 'G' " +
+            ")", nativeQuery = true)
+    List<ActorRLongNotGProjection> findActorsInRLongNotInG();
+
+    interface ActorRLongNotGProjection {
+        String getActorName();
+    }
 }
