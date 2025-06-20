@@ -2,6 +2,7 @@ package com.example.authdemo.controller;
 
 import com.example.authdemo.entity.Film;
 import com.example.authdemo.service.FilmService;
+import com.example.authdemo.dto.TopRentedFilmDto;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,13 @@ public class FilmController {
     public List<FilmDto> getAllFilms() {
         return filmService.getAllFilms().stream()
                 .map(film -> new FilmDto(film.getTitle(), film.getRentalRate(), film.getReplacementCost()))
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/top-rented")
+    public List<TopRentedFilmDto> getTop5MostRentedFilms() {
+        return filmService.getTop5MostRentedFilms().stream()
+                .map(f -> new TopRentedFilmDto(f.getTitle(), f.getRentalCount()))
                 .collect(Collectors.toList());
     }
 

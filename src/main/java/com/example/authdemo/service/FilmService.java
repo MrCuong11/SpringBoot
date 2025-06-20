@@ -17,4 +17,8 @@ public class FilmService {
     public List<Film> getAllFilms() {
         return filmRepository.findAll();
     }
+
+    public List<FilmRepository.TopRentedFilmProjection> getTop5MostRentedFilms() {
+        return filmRepository.findTop5MostRentedFilms();
+    }
 } 
