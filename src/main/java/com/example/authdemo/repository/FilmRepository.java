@@ -92,4 +92,29 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
         java.sql.Date getRentalDay();
         Long getTimesRented();
     }
+
+    @Query(value = "SELECT f.title AS title " +
+            "FROM film f " +
+            "JOIN inventory i ON f.film_id = i.film_id " +
+            "JOIN rental r ON i.inventory_id = r.inventory_id " +
+            "WHERE f.film_id NOT IN ( " +
+            "    SELECT DISTINCT f2.film_id " +
+            "    FROM film f2 " +
+            "    JOIN inventory i2 ON f2.film_id = i2.film_id " +
+            "    JOIN rental r2 ON i2.inventory_id = r2.inventory_id " +
+            "    WHERE r2.customer_id IN ( " +
+            "        SELECT DISTINCT r3.customer_id " +
+            "        FROM rental r3 " +
+            "        JOIN inventory i3 ON r3.inventory_id = i3.inventory_id " +
+            "        JOIN film f3 ON i3.film_id = f3.film_id " +
+            "        WHERE f3.rating = 'G' " +
+            "    ) " +
+            ") " +
+            "GROUP BY f.film_id, f.title " +
+            "HAVING COUNT(*) > 100", nativeQuery = true)
+    List<FilmTitleProjection> findFilmsRentedMoreThan100TimesAndNeverByGCustomers();
+
+    interface FilmTitleProjection {
+        String getTitle();
+    }
 } 
