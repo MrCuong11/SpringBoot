@@ -45,4 +45,8 @@ public class ActorService {
     public List<ActorRepository.ActorWithAllCoActorsProjection> getActorsWithAllCoActors() {
         return actorRepository.findActorsWithAllCoActors();
     }
+
+    public List<ActorRepository.ActorNameProjection> getActorsInPg13LongAndRShortFilms() {
+        return actorRepository.findActorsInPg13LongAndRShortFilms();
+    }
 }

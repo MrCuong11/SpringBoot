@@ -121,4 +121,28 @@ public interface ActorRepository extends JpaRepository<Actor, Integer> {
         String getCoActorName();
         Long getFilmsTogether();
     }
+
+    @Query(value = "SELECT CONCAT(a.first_name, ' ', a.last_name) AS actorName " +
+            "FROM actor a " +
+            "WHERE EXISTS ( " +
+            "    SELECT 1 " +
+            "    FROM film_actor fa1 " +
+            "    JOIN film f1 ON fa1.film_id = f1.film_id " +
+            "    WHERE fa1.actor_id = a.actor_id " +
+            "      AND f1.rating = 'PG-13' " +
+            "      AND f1.length > 120 " +
+            ") " +
+            "AND EXISTS ( " +
+            "    SELECT 1 " +
+            "    FROM film_actor fa2 " +
+            "    JOIN film f2 ON fa2.film_id = f2.film_id " +
+            "    WHERE fa2.actor_id = a.actor_id " +
+            "      AND f2.rating = 'R' " +
+            "      AND f2.length < 90 " +
+            ")", nativeQuery = true)
+    List<ActorNameProjection> findActorsInPg13LongAndRShortFilms();
+
+    interface ActorNameProjection {
+        String getActorName();
+    }
 }
