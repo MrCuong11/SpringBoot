@@ -1,0 +1,18 @@
+package com.example.authdemo.service;
+
+import com.example.authdemo.repository.CustomerRepository;
+import org.springframework.stereotype.Service;
+import java.util.List;
+
+@Service
+public class CustomerService {
+    private final CustomerRepository customerRepository;
+
+    public CustomerService(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
+    }
+
+    public List<CustomerRepository.CustomerAddressProjection> getCustomerNamesAndAddressesRentedInJan2022() {
+        return customerRepository.findCustomerNamesAndAddressesRentedInJan2022();
+    }
+} 
