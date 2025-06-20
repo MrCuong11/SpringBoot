@@ -27,4 +27,8 @@ public class CustomerService {
     public List<CustomerRepository.CustomerRepeatRentalProjection> getCustomersRentedSameFilmMoreThanOnce() {
         return customerRepository.findCustomersRentedSameFilmMoreThanOnce();
     }
+
+    public List<CustomerRepository.CustomerFirstTimeCategoryRentalProjection> getCustomersFirstTimeCategoryRental() {
+        return customerRepository.findCustomersFirstTimeCategoryRental();
+    }
 } 

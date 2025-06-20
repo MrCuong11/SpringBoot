@@ -66,4 +66,28 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
         String getFilmTitle();
         Long getRentalCount();
     }
+
+    @Query(value = "SELECT DISTINCT c.customer_id AS customerId, c.first_name AS firstName, c.last_name AS lastName, cat.name AS categoryName " +
+            "FROM customer c " +
+            "JOIN rental r1 ON c.customer_id = r1.customer_id " +
+            "JOIN inventory i1 ON r1.inventory_id = i1.inventory_id " +
+            "JOIN film_category fc1 ON i1.film_id = fc1.film_id " +
+            "JOIN category cat ON fc1.category_id = cat.category_id " +
+            "WHERE NOT EXISTS ( " +
+            "    SELECT 1 " +
+            "    FROM rental r2 " +
+            "    JOIN inventory i2 ON r2.inventory_id = i2.inventory_id " +
+            "    JOIN film_category fc2 ON i2.film_id = fc2.film_id " +
+            "    WHERE r2.customer_id = c.customer_id " +
+            "      AND fc2.category_id = fc1.category_id " +
+            "      AND r2.rental_date < r1.rental_date " +
+            ")", nativeQuery = true)
+    List<CustomerFirstTimeCategoryRentalProjection> findCustomersFirstTimeCategoryRental();
+
+    interface CustomerFirstTimeCategoryRentalProjection {
+        Integer getCustomerId();
+        String getFirstName();
+        String getLastName();
+        String getCategoryName();
+    }
 } 
