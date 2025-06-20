@@ -14,13 +14,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
             "GROUP BY c.customer_id, c.first_name, c.last_name, a.address", nativeQuery = true)
     List<CustomerAddressProjection> findCustomerNamesAndAddressesRentedInJan2022();
 
-    @Query(value = "SELECT c.first_name AS firstName, c.last_name AS lastName, SUM(p.amount) AS totalRevenue " +
-            "FROM customer c " +
-            "JOIN payment p ON c.customer_id = p.customer_id " +
-            "GROUP BY c.customer_id, c.first_name, c.last_name " +
-            "ORDER BY totalRevenue DESC " +
-            "LIMIT 10", nativeQuery = true)
-    List<TopCustomerRevenueProjection> findTop10CustomersByRevenue();
 
     interface CustomerAddressProjection {
         String getFirstName();
@@ -28,9 +21,33 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
         String getAddress();
     }
 
+    
+
+    @Query(value = "SELECT c.first_name AS firstName, c.last_name AS lastName, SUM(p.amount) AS totalRevenue " +
+            "FROM customer c " +
+            "JOIN payment p ON c.customer_id = p.customer_id " +
+            "GROUP BY c.customer_id, c.first_name, c.last_name " +
+            "ORDER BY totalRevenue DESC " +
+            "LIMIT 10", nativeQuery = true)
+    List<TopCustomerRevenueProjection> findTop10CustomersByRevenue();
     interface TopCustomerRevenueProjection {
         String getFirstName();
         String getLastName();
         java.math.BigDecimal getTotalRevenue();
+    }
+
+    @Query(value = "SELECT c.first_name AS firstName, c.last_name AS lastName, c.email AS email " +
+            "FROM customer c " +
+            "JOIN rental r ON c.customer_id = r.customer_id " +
+            "JOIN inventory i ON r.inventory_id = i.inventory_id " +
+            "JOIN film_category fc ON i.film_id = fc.film_id " +
+            "GROUP BY c.customer_id, c.first_name, c.last_name, c.email " +
+            "HAVING COUNT(DISTINCT fc.category_id) = (SELECT COUNT(*) FROM category)", nativeQuery = true)
+    List<CustomerAllCategoryRentalProjection> findCustomersRentedAllCategories();
+
+    interface CustomerAllCategoryRentalProjection {
+        String getFirstName();
+        String getLastName();
+        String getEmail();
     }
 } 

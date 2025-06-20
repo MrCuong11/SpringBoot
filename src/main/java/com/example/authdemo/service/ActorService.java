@@ -21,4 +21,8 @@ public class ActorService {
     public List<ActorRepository.ActorFilmCountProjection> getActorsWithMoreThan20Films() {
         return actorRepository.findActorsWithMoreThan20Films();
     }
+
+    public List<ActorRepository.ActorAllCategoryProjection> getActorsInAllCategories() {
+        return actorRepository.findActorsInAllCategories();
+    }
 }

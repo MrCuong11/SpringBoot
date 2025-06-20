@@ -19,4 +19,8 @@ public class CustomerService {
     public List<CustomerRepository.TopCustomerRevenueProjection> getTop10CustomersByRevenue() {
         return customerRepository.findTop10CustomersByRevenue();
     }
+
+    public List<CustomerRepository.CustomerAllCategoryRentalProjection> getCustomersRentedAllCategories() {
+        return customerRepository.findCustomersRentedAllCategories();
+    }
 } 

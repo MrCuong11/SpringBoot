@@ -1,6 +1,7 @@
 package com.example.authdemo.controller;
 
 import com.example.authdemo.dto.ActorFilmCountDto;
+import com.example.authdemo.dto.ActorAllCategoryDto;
 import com.example.authdemo.entity.Actor;
 import com.example.authdemo.service.ActorService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -29,6 +30,12 @@ public class ActorController {
     public List<ActorFilmCountDto> getActorsWithMoreThan20Films() {
         return actorService.getActorsWithMoreThan20Films().stream()
                 .map(a -> new ActorFilmCountDto(a.getFirstName(), a.getLastName(), a.getFilmCount()))
+                .collect(Collectors.toList());
+    }
+    @GetMapping("/in-all-categories")
+    public List<ActorAllCategoryDto> getActorsInAllCategories() {
+        return actorService.getActorsInAllCategories().stream()
+                .map(a -> new ActorAllCategoryDto(a.getFirstName(), a.getLastName()))
                 .collect(Collectors.toList());
     }
 }
