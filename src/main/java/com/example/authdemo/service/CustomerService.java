@@ -31,4 +31,8 @@ public class CustomerService {
     public List<CustomerRepository.CustomerFirstTimeCategoryRentalProjection> getCustomersFirstTimeCategoryRental() {
         return customerRepository.findCustomersFirstTimeCategoryRental();
     }
+
+    public List<CustomerRepository.CustomerLargeTransactionProjection> getCustomersWithLargeTransactions() {
+        return customerRepository.findCustomersWithLargeTransactions();
+    }
 } 

@@ -90,4 +90,20 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
         String getLastName();
         String getCategoryName();
     }
+
+    @Query(value = "SELECT c.customer_id AS customerId, CONCAT(c.first_name, ' ', c.last_name) AS customerName, DATE(r.rental_date) AS rentalDay, COUNT(*) AS filmsRented, SUM(p.amount) AS totalFee " +
+            "FROM customer c " +
+            "JOIN rental r ON c.customer_id = r.customer_id " +
+            "JOIN payment p ON r.rental_id = p.rental_id " +
+            "GROUP BY c.customer_id, customerName, rentalDay " +
+            "HAVING COUNT(*) > 10", nativeQuery = true)
+    List<CustomerLargeTransactionProjection> findCustomersWithLargeTransactions();
+
+    interface CustomerLargeTransactionProjection {
+        Integer getCustomerId();
+        String getCustomerName();
+        java.sql.Date getRentalDay();
+        Long getFilmsRented();
+        java.math.BigDecimal getTotalFee();
+    }
 } 

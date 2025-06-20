@@ -5,6 +5,7 @@ import com.example.authdemo.dto.TopCustomerRevenueDto;
 import com.example.authdemo.dto.CustomerAllCategoryRentalDto;
 import com.example.authdemo.dto.CustomerRepeatRentalDto;
 import com.example.authdemo.dto.CustomerFirstTimeCategoryRentalDto;
+import com.example.authdemo.dto.CustomerLargeTransactionDto;
 import com.example.authdemo.service.CustomerService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,6 +55,13 @@ public class CustomerController {
     public List<CustomerFirstTimeCategoryRentalDto> getCustomersFirstTimeCategoryRental() {
         return customerService.getCustomersFirstTimeCategoryRental().stream()
                 .map(c -> new CustomerFirstTimeCategoryRentalDto(c.getCustomerId(), c.getFirstName(), c.getLastName(), c.getCategoryName()))
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/large-transactions")
+    public List<CustomerLargeTransactionDto> getCustomersWithLargeTransactions() {
+        return customerService.getCustomersWithLargeTransactions().stream()
+                .map(c -> new CustomerLargeTransactionDto(c.getCustomerId(), c.getCustomerName(), c.getRentalDay(), c.getFilmsRented(), c.getTotalFee()))
                 .collect(Collectors.toList());
     }
 } 
