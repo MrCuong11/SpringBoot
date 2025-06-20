@@ -15,4 +15,8 @@ public class CustomerService {
     public List<CustomerRepository.CustomerAddressProjection> getCustomerNamesAndAddressesRentedInJan2022() {
         return customerRepository.findCustomerNamesAndAddressesRentedInJan2022();
     }
+
+    public List<CustomerRepository.TopCustomerRevenueProjection> getTop10CustomersByRevenue() {
+        return customerRepository.findTop10CustomersByRevenue();
+    }
 } 

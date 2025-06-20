@@ -14,9 +14,23 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
             "GROUP BY c.customer_id, c.first_name, c.last_name, a.address", nativeQuery = true)
     List<CustomerAddressProjection> findCustomerNamesAndAddressesRentedInJan2022();
 
+    @Query(value = "SELECT c.first_name AS firstName, c.last_name AS lastName, SUM(p.amount) AS totalRevenue " +
+            "FROM customer c " +
+            "JOIN payment p ON c.customer_id = p.customer_id " +
+            "GROUP BY c.customer_id, c.first_name, c.last_name " +
+            "ORDER BY totalRevenue DESC " +
+            "LIMIT 10", nativeQuery = true)
+    List<TopCustomerRevenueProjection> findTop10CustomersByRevenue();
+
     interface CustomerAddressProjection {
         String getFirstName();
         String getLastName();
         String getAddress();
+    }
+
+    interface TopCustomerRevenueProjection {
+        String getFirstName();
+        String getLastName();
+        java.math.BigDecimal getTotalRevenue();
     }
 } 
