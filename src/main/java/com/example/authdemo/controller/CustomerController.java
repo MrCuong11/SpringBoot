@@ -10,6 +10,7 @@ import com.example.authdemo.dto.CustomerFilmCountPerCategoryDto;
 import com.example.authdemo.dto.CustomerNameDto;
 import com.example.authdemo.dto.UpdateResultDto;
 import com.example.authdemo.service.CustomerService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@SecurityRequirement(name = "bearerAuth")
 @RequestMapping("/api/customers")
 public class CustomerController {
     private final CustomerService customerService;
