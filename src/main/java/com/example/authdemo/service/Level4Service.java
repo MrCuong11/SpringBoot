@@ -92,6 +92,8 @@ public class Level4Service {
         return include + exclude;
     }
 
+
+
     /**
      * Tìm độ dài chuỗi con chung dài nhất trong tất cả các chuỗi
      * 
@@ -172,7 +174,8 @@ public class Level4Service {
      * Tìm tích lớn nhất của 3 phần tử
      * 
      * Ý tưởng: Sắp xếp mảng
-     * Có 2 trường hợp: 3 số lớn nhất hoặc 2 số nhỏ nhất × số lớn nhất
+     * Có 2 trường hợp: 3 số lớn nhất hoặc
+     * 2 số nhỏ nhất × số lớn nhất
      * 
      */
     public int maxProductOfThree(List<Integer> numbers) {

@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
-    // CustomUserDetailsService là một service tùy chỉnh để load thông tin user từ database và chuyển đổi thành đối tượng UserDetails mà Spring Security có thể sử dụng để xác thực và phân quyền.
+    // CustomUserDetailsService để load thông tin user từ database và chuyển đổi thành đối tượng UserDetails mà Spring Security có thể sử dụng để xác thực và phân quyền.
 
     private final UserRepository userRepository;
 
