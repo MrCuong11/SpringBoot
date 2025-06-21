@@ -27,31 +27,36 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String username;
+        
         // nếu authHeader là null hoặc không bắt đầu với "Bearer " thì bỏ qua
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // bỏ qua 7 kí tự đầu tiên của authHeader
-        jwt = authHeader.substring(7);
-        username = jwtService.extractUsername(jwt);
+        try {
+            // bỏ qua 7 kí tự đầu tiên của authHeader
+            jwt = authHeader.substring(7);
+            username = jwtService.extractUsername(jwt);
 
-        // nếu username không phải là null và authentication là null thì load user details
-        // nếu token hợp lệ thì set authentication
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            // nếu token hợp lệ thì set authentication
-            if (jwtService.isTokenValid(jwt, userDetails.getUsername())) {
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities()
-                );
-                // set details cho authentication
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                // set authentication cho security context
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+            // nếu username không phải là null và authentication là null thì load user details
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                // nếu token hợp lệ thì set authentication
+                if (jwtService.isTokenValid(jwt, userDetails.getUsername())) {
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                            userDetails, null, userDetails.getAuthorities()
+                    );
+                    // set details cho authentication
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    // set authentication cho security context
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
+                // Nếu token không hợp lệ, không làm gì cả - để Spring Security tự xử lý
             }
+        } catch (Exception e) {
         }
+        
         // tiếp tục filter chain
         filterChain.doFilter(request, response);
     }
