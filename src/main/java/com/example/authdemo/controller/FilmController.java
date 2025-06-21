@@ -89,4 +89,22 @@ public class FilmController {
         int updatedCount = filmService.updateRentalDurationForPopularFilms();
         return new UpdateResultDto(updatedCount, "Successfully updated rental duration for " + updatedCount + " popular films (5% increase)");
     }
+
+    @PutMapping("/update-rental-rate-old-action")
+    public UpdateResultDto updateRentalRateForOldActionFilms() {
+        int updatedCount = filmService.updateRentalRateForOldActionFilms();
+        return new UpdateResultDto(updatedCount, "Successfully updated rental rate for " + updatedCount + " old Action films (20% increase)");
+    }
+
+    @PutMapping("/update-rental-rate-popular-with-limit")
+    public UpdateResultDto updateRentalRateForPopularFilmsWithLimit() {
+        int updatedCount = filmService.updateRentalRateForPopularFilmsWithLimit();
+        return new UpdateResultDto(updatedCount, "Successfully updated rental rate for " + updatedCount + " popular films (5% increase, max $4.00)");
+    }
+
+    @PutMapping("/update-rental-rate-pg13-long")
+    public UpdateResultDto updateRentalRateForPG13LongFilms() {
+        int updatedCount = filmService.updateRentalRateForPG13LongFilms();
+        return new UpdateResultDto(updatedCount, "Successfully updated rental rate to $3.50 for " + updatedCount + " PG-13 films longer than 2 hours");
+    }
 } 

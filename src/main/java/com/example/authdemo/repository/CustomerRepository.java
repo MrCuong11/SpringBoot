@@ -3,6 +3,8 @@ package com.example.authdemo.repository;
 import com.example.authdemo.entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
@@ -164,4 +166,20 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     interface CustomerNameProjection {
         String getCustomerName();
     }
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE customer SET email = CONCAT(email, 'horrorlover') WHERE customer_id IN ( " +
+            "    SELECT DISTINCT c.customer_id " +
+            "    FROM customer c " +
+            "    JOIN rental r ON c.customer_id = r.customer_id " +
+            "    JOIN inventory i ON r.inventory_id = i.inventory_id " +
+            "    JOIN film f ON i.film_id = f.film_id " +
+            "    JOIN film_category fc ON f.film_id = fc.film_id " +
+            "    JOIN category cat ON fc.category_id = cat.category_id " +
+            "    WHERE cat.name = 'Horror' " +
+            "      AND r.rental_date >= '2022-10-01' " +
+            "      AND r.rental_date <  '2022-11-01' " +
+            ")", nativeQuery = true)
+    int updateEmailForHorrorLovers();
 } 

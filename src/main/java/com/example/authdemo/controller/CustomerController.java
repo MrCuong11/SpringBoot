@@ -8,8 +8,10 @@ import com.example.authdemo.dto.CustomerFirstTimeCategoryRentalDto;
 import com.example.authdemo.dto.CustomerLargeTransactionDto;
 import com.example.authdemo.dto.CustomerFilmCountPerCategoryDto;
 import com.example.authdemo.dto.CustomerNameDto;
+import com.example.authdemo.dto.UpdateResultDto;
 import com.example.authdemo.service.CustomerService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -79,5 +81,17 @@ public class CustomerController {
         return customerService.getCustomersWithNewCategoryAndNoLongFilms().stream()
                 .map(c -> new CustomerNameDto(c.getCustomerName()))
                 .collect(Collectors.toList());
+    }
+
+    @PutMapping("/update-addresses")
+    public UpdateResultDto updateCustomerAddresses() {
+        int updatedCount = customerService.updateCustomerAddresses();
+        return new UpdateResultDto(updatedCount, "Successfully updated addresses for " + updatedCount + " customers");
+    }
+
+    @PutMapping("/update-email-horror-lovers")
+    public UpdateResultDto updateEmailForHorrorLovers() {
+        int updatedCount = customerService.updateEmailForHorrorLovers();
+        return new UpdateResultDto(updatedCount, "Successfully updated email for " + updatedCount + " horror movie lovers");
     }
 } 

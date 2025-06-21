@@ -43,4 +43,12 @@ public class CustomerService {
     public List<CustomerRepository.CustomerNameProjection> getCustomersWithNewCategoryAndNoLongFilms() {
         return customerRepository.findCustomersWithNewCategoryAndNoLongFilms();
     }
+
+    public int updateCustomerAddresses() {
+        return customerRepository.updateCustomerAddresses();
+    }
+
+    public int updateEmailForHorrorLovers() {
+        return customerRepository.updateEmailForHorrorLovers();
+    }
 } 

@@ -49,4 +49,16 @@ public class FilmService {
     public int updateRentalDurationForPopularFilms() {
         return filmRepository.updateRentalDurationForPopularFilms();
     }
+
+    public int updateRentalRateForOldActionFilms() {
+        return filmRepository.updateRentalRateForOldActionFilms();
+    }
+
+    public int updateRentalRateForPopularFilmsWithLimit() {
+        return filmRepository.updateRentalRateForPopularFilmsWithLimit();
+    }
+
+    public int updateRentalRateForPG13LongFilms() {
+        return filmRepository.updateRentalRateForPG13LongFilms();
+    }
 } 
