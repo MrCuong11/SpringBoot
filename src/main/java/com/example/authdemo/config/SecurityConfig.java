@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @RequiredArgsConstructor
 @EnableMethodSecurity(prePostEnabled = true)
+// nhiệm vụ của class này là config security
 public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthFilter;
 

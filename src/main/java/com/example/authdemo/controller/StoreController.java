@@ -23,6 +23,11 @@ public class StoreController {
     }
 
     @GetMapping("/revenue-2021")
+    /**
+     * Lấy doanh thu của các cửa hàng trong năm 2021
+     * Input: Không có (GET request)
+     * Output: List<StoreRevenueDto> - Danh sách cửa hàng với ID và tổng doanh thu năm 2021
+     */
     public List<StoreRevenueDto> getStoreRevenue2021() {
         return storeService.getStoreRevenue2021().stream()
                 .map(s -> new StoreRevenueDto(s.getStoreId(), s.getTotalRevenue()))

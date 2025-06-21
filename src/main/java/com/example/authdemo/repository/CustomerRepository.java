@@ -8,6 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
+    // Query 1: Tìm tên và địa chỉ của khách hàng đã thuê phim trong tháng 1/2022
+    // Logic: JOIN customer với address và rental, lọc theo khoảng thời gian tháng 1/2022
+    // GROUP BY để loại bỏ duplicate khi một khách hàng thuê nhiều phim
     @Query(value = "SELECT c.first_name AS firstName, c.last_name AS lastName, a.address AS address " +
             "FROM customer c " +
             "JOIN address a ON c.address_id = a.address_id " +
@@ -16,15 +19,15 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
             "GROUP BY c.customer_id, c.first_name, c.last_name, a.address", nativeQuery = true)
     List<CustomerAddressProjection> findCustomerNamesAndAddressesRentedInJan2022();
 
-
     interface CustomerAddressProjection {
         String getFirstName();
         String getLastName();
         String getAddress();
     }
 
-    
-
+    // Query 2: Tìm top 10 khách hàng có doanh thu cao nhất
+    // Logic: JOIN customer với payment, tính tổng amount cho mỗi khách hàng
+    // ORDER BY totalRevenue DESC và LIMIT 10 để lấy top 10
     @Query(value = "SELECT c.first_name AS firstName, c.last_name AS lastName, SUM(p.amount) AS totalRevenue " +
             "FROM customer c " +
             "JOIN payment p ON c.customer_id = p.customer_id " +
@@ -32,12 +35,16 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
             "ORDER BY totalRevenue DESC " +
             "LIMIT 10", nativeQuery = true)
     List<TopCustomerRevenueProjection> findTop10CustomersByRevenue();
+    
     interface TopCustomerRevenueProjection {
         String getFirstName();
         String getLastName();
         java.math.BigDecimal getTotalRevenue();
     }
 
+    // Query 3: Tìm khách hàng đã thuê phim từ tất cả các category
+    // Logic: JOIN customer -> rental -> inventory -> film_category -> category
+    // HAVING COUNT(DISTINCT fc.category_id) = (SELECT COUNT(*) FROM category) để đảm bảo thuê đủ tất cả category
     @Query(value = "SELECT c.first_name AS firstName, c.last_name AS lastName, c.email AS email " +
             "FROM customer c " +
             "JOIN rental r ON c.customer_id = r.customer_id " +
@@ -53,6 +60,9 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
         String getEmail();
     }
 
+    // Query 4: Tìm khách hàng đã thuê cùng một phim nhiều hơn 1 lần
+    // Logic: JOIN customer -> rental -> inventory -> film, GROUP BY theo customer và film
+    // HAVING COUNT(*) > 1 để lọc những phim được thuê nhiều lần
     @Query(value = "SELECT c.first_name AS firstName, c.last_name AS lastName, f.title AS filmTitle, COUNT(*) AS rentalCount " +
             "FROM customer c " +
             "JOIN rental r ON c.customer_id = r.customer_id " +
@@ -69,6 +79,9 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
         Long getRentalCount();
     }
 
+    // Query 5: Tìm lần thuê đầu tiên của khách hàng cho mỗi category
+    // Logic: Sử dụng NOT EXISTS để tìm rental đầu tiên của mỗi category cho mỗi khách hàng
+    // Subquery kiểm tra không có rental nào trước đó cho cùng category
     @Query(value = "SELECT DISTINCT c.customer_id AS customerId, c.first_name AS firstName, c.last_name AS lastName, cat.name AS categoryName " +
             "FROM customer c " +
             "JOIN rental r1 ON c.customer_id = r1.customer_id " +
@@ -93,6 +106,9 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
         String getCategoryName();
     }
 
+    // Query 6: Tìm khách hàng có giao dịch lớn (thuê hơn 10 phim trong 1 ngày)
+    // Logic: JOIN customer -> rental -> payment, GROUP BY theo customer và ngày thuê
+    // HAVING COUNT(*) > 10 để lọc những ngày thuê nhiều phim
     @Query(value = "SELECT c.customer_id AS customerId, CONCAT(c.first_name, ' ', c.last_name) AS customerName, DATE(r.rental_date) AS rentalDay, COUNT(*) AS filmsRented, SUM(p.amount) AS totalFee " +
             "FROM customer c " +
             "JOIN rental r ON c.customer_id = r.customer_id " +
@@ -109,6 +125,8 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
         java.math.BigDecimal getTotalFee();
     }
 
+    // Query 7: Tìm số lượng phim thuê theo category của những khách hàng đã thuê tất cả category
+    // Logic: Subquery tìm khách hàng thuê đủ tất cả category, sau đó JOIN để lấy chi tiết theo category
     @Query(value = "SELECT CONCAT(c.first_name, ' ', c.last_name) AS customerName, cat.name AS categoryName, COUNT(*) AS filmsRented " +
             "FROM customer c " +
             "JOIN rental r ON c.customer_id = r.customer_id " +
@@ -133,6 +151,9 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
         Long getFilmsRented();
     }
 
+    // Query 8: Tìm khách hàng thuê category mới và không thuê phim dài (>180 phút)
+    // Logic: NOT EXISTS để đảm bảo không thuê phim dài, EXISTS để đảm bảo có thuê category mới
+    // Subquery kiểm tra category chưa được thuê trước đó
     @Query(value = "SELECT DISTINCT CONCAT(c.first_name, ' ', c.last_name) AS customerName " +
             "FROM customer c " +
             "JOIN rental r ON c.customer_id = r.customer_id " +
@@ -167,6 +188,9 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
         String getCustomerName();
     }
 
+    // Query 9: Cập nhật email cho khách hàng thích phim Horror trong tháng 10/2022
+    // Logic: Subquery tìm khách hàng thuê phim Horror trong tháng 10/2022
+    // UPDATE với CONCAT để thêm 'horrorlover' vào email
     @Modifying
     @Transactional
     @Query(value = "UPDATE customer SET email = CONCAT(email, 'horrorlover') WHERE customer_id IN ( " +
@@ -183,8 +207,14 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
             ")", nativeQuery = true)
     int updateEmailForHorrorLovers();
 
+    // Query 10: Cập nhật address cho khách hàng có cùng last_name và city_id
+    // Logic: Self-join customer table để tìm những cặp khách hàng có cùng last_name và city_id
+    // UPDATE với CONCAT để thêm 'samecity' vào address
     @Modifying
+    // Mục đích: Đánh dấu rằng query này sẽ thay đổi dữ liệu (INSERT, UPDATE, DELETE)
+    // Mặc định: Spring Data JPA cho rằng @Query chỉ để đọc dữ liệu (SELECT)
     @Transactional
+    // Mục đích: Đảm bảo toàn bộ operation được thực hiện trong một transaction
     @Query(value = "UPDATE customer SET address = CONCAT(address, 'samecity') WHERE customer_id IN ( " +
             "    SELECT c1.customer_id " +
             "    FROM customer c1 " +
@@ -195,6 +225,9 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
             ")", nativeQuery = true)
     int updateAddressForSameCityCustomers();
 
+    // Query 11: Cập nhật address cho khách hàng đã thuê phim từ năm 2022
+    // Logic: Subquery tìm khách hàng có rental từ 2022-01-01 trở đi
+    // UPDATE với CONCAT để thêm 'updated' vào address
     @Modifying
     @Transactional
     @Query(value = "UPDATE customer SET address = CONCAT(address, 'updated') WHERE customer_id IN ( " +

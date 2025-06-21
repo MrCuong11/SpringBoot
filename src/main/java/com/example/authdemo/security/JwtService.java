@@ -15,14 +15,17 @@ public class JwtService {
     @Value("${jwt.secret}")
     private String SECRET_KEY;
 
+    // tạo key cho JWT
     private Key getSignInKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
     }
 
+    // lấy username từ token
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
+    // lấy claim từ token
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = Jwts.parserBuilder()
                 .setSigningKey(getSignInKey())
@@ -32,6 +35,7 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
+    // tạo token
     public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
@@ -41,10 +45,12 @@ public class JwtService {
                 .compact();
     }
 
+    // kiểm tra token có hợp lệ không
     public boolean isTokenValid(String token, String username) {
         return extractUsername(token).equals(username) && !isTokenExpired(token);
     }
 
+    // kiểm tra token có hết hạn không
     private boolean isTokenExpired(String token) {
         return extractClaim(token, Claims::getExpiration).before(new Date());
     }

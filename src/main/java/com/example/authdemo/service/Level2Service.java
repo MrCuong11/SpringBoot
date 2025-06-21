@@ -7,6 +7,14 @@ import java.util.List;
 @Service
 public class Level2Service {
 
+    /**
+     * Tìm số lớn thứ hai trong danh sách
+     * - Kiểm tra null và size >= 2 trước khi xử lý
+     * - Chuyển List thành array và sắp xếp tăng dần
+     * - Tìm số lớn nhất (phần tử cuối cùng)
+     * - Duyệt ngược từ cuối để tìm số lớn thứ hai (khác số lớn nhất)
+     * - Return null nếu tất cả số bằng nhau
+     */
     public Integer findSecondLargest(List<Integer> numbers) {
         if (numbers == null || numbers.size() < 2) {
             throw new IllegalArgumentException("List must contain at least 2 numbers");
@@ -24,6 +32,14 @@ public class Level2Service {
         return null;
     }
 
+    /**
+     * Tìm từ dài nhất trong danh sách từ
+     * - Kiểm tra null và empty trước khi xử lý
+     * - Khởi tạo longestWord = từ đầu tiên
+     * - Duyệt qua từng từ, cập nhật longestWord nếu tìm thấy từ dài hơn
+     * - So sánh bằng length() method
+     * - Return từ dài nhất
+     */
     public String findLongestWord(List<String> words) {
         if (words == null || words.isEmpty()) {
             throw new IllegalArgumentException("List must not be empty");
@@ -38,6 +54,15 @@ public class Level2Service {
         return longestWord;
     }
 
+    /**
+     * Tìm chuỗi con chung dài nhất (LCS) giữa hai chuỗi
+     * - Sử dụng thuật toán Dynamic Programming với bảng 2D
+     * - Tạo bảng dp[m+1][n+1] để lưu độ dài LCS
+     * - Nếu ký tự giống nhau: dp[i+1][j+1] = dp[i][j] + 1
+     * - Nếu khác nhau: dp[i+1][j+1] = max(dp[i][j+1], dp[i+1][j])
+     * - Sau khi xây dựng bảng, backtrack để tìm chuỗi LCS
+     * - Return chuỗi con chung dài nhất
+     */
     public String findLongestCommonSubsequence(String s1, String s2) {
         if (s1 == null || s2 == null) {
             throw new IllegalArgumentException("Strings must not be null");
@@ -65,6 +90,14 @@ public class Level2Service {
         return lcs.reverse().toString();
     }
 
+    /**
+     * Tính tổng các số chia hết cho cả 3 và 5
+     * - Kiểm tra null trước khi xử lý
+     * - Sử dụng Stream API với filter()
+     * - Điều kiện: num % 3 == 0 && num % 5 == 0 (chia hết cho cả 3 và 5)
+     * - Chuyển thành IntStream và tính tổng
+     * - Return tổng các số thỏa mãn điều kiện
+     */
     public int sumDivisibleBy3And5(List<Integer> numbers) {
         if (numbers == null) {
             throw new IllegalArgumentException("List must not be null");
@@ -76,6 +109,16 @@ public class Level2Service {
                 .sum();
     }
 
+    /**
+     * Tìm tổng lớn nhất của dãy con liên tiếp (Kadane's Algorithm)
+     * - Kiểm tra null và empty trước khi xử lý
+     * - Khởi tạo maxSoFar = currentMax = phần tử đầu tiên
+     * - Duyệt qua từng phần tử từ vị trí thứ 2
+     * - Cập nhật currentMax = max(current, currentMax + current)
+     * - Cập nhật maxSoFar = max(maxSoFar, currentMax)
+     * - Thuật toán này tìm dãy con có tổng lớn nhất
+     * - Return tổng lớn nhất
+     */
     public int findMaxSubarraySum(List<Integer> numbers) {
         if (numbers == null || numbers.isEmpty()) {
             throw new IllegalArgumentException("List must not be empty");

@@ -11,7 +11,7 @@ public class Level5Service {
     /**
      * 5.1: Đảo ngược thứ tự các phần tử trong danh sách số nguyên.
      * 
-     * Ý tưởng: Tạo bản sao của danh sách đầu vào và dùng Collections.reverse() để đảo ngược.
+     * Tạo bản sao của danh sách đầu vào và dùng Collections.reverse() để đảo ngược.
      * Tránh thay đổi danh sách gốc.
      */
     public List<Integer> reverseList(List<Integer> list) {
@@ -26,7 +26,7 @@ public class Level5Service {
     /**
      * 5.2: Chia danh sách đầu vào thành nhiều danh sách con có kích thước tối đa là `size`.
      * 
-     * Ý tưởng: Duyệt danh sách theo bước nhảy `size`, và tạo từng subList từ i đến i + size.
+     * Duyệt danh sách theo bước nhảy `size`, và tạo từng subList từ i đến i + size.
      */
     public <T> List<List<T>> chunk(List<T> list, int size) {
         if (list == null || list.isEmpty() || size <= 0) {
@@ -44,7 +44,7 @@ public class Level5Service {
     /**
      * 5.3: Loại bỏ phần tử trùng lặp trong danh sách số nguyên, giữ nguyên thứ tự ban đầu.
      * 
-     * Ý tưởng: Dùng LinkedHashSet để vừa loại trùng, vừa giữ thứ tự.
+     * Dùng LinkedHashSet để vừa loại trùng, vừa giữ thứ tự.
      */
     public List<Integer> uniq(List<Integer> list) {
         if (list == null) {
@@ -56,7 +56,7 @@ public class Level5Service {
     /**
      * 5.4: Loại bỏ các Map trùng lặp trong danh sách (xét theo nội dung, không phân biệt thứ tự key).
      * 
-     * Ý tưởng: Dùng TreeMap để chuẩn hóa các map (sort theo key), convert thành chuỗi rồi check trùng.
+     * Dùng TreeMap để chuẩn hóa các map (sort theo key), convert thành chuỗi rồi check trùng.
      */
     public List<Map<String, Object>> uniqObjects(List<Map<String, Object>> list) {
         if (list == null) {
@@ -84,7 +84,7 @@ public class Level5Service {
     /**
      * 5.5: Gom nhóm các phần tử theo giá trị của một trường nhất định.
      * 
-     * Ý tưởng: Dùng giá trị tại field làm key, gom các map lại theo nhóm.
+     * Dùng giá trị tại field làm key, gom các map lại theo nhóm.
      */
     public Map<Object, List<Map<String, Object>>> groupBy(List<Map<String, Object>> list, String field) {
         if (list == null || field == null || field.isEmpty()) {
@@ -102,7 +102,7 @@ public class Level5Service {
     /**
      * 5.6: Xóa khoảng trắng đầu/cuối chuỗi và thay nhiều khoảng trắng liên tiếp bằng 1 khoảng trắng.
      * 
-     * Ý tưởng: trim() + replaceAll với regex "\\s+".
+     * trim() + replaceAll với regex "\\s+".
      */
     public String trimAll(String input) {
         if (input == null) {
@@ -114,7 +114,7 @@ public class Level5Service {
     /**
      * 5.7: Lọc danh sách các map, chỉ giữ lại các key nằm trong danh sách cho trước.
      * 
-     * Ý tưởng: Với mỗi map, tạo map mới chỉ chứa các key có trong danh sách keys.
+     * Với mỗi map, tạo map mới chỉ chứa các key có trong danh sách keys.
      */
     public List<Map<String, Object>> mapKey(List<String> keys, List<Map<String, Object>> collections) {
         if (keys == null || collections == null) {
@@ -136,8 +136,7 @@ public class Level5Service {
     /**
      * 5.8: Di chuyển phần tử có id = targetId đến vị trí newOrder và cập nhật lại trường "order".
      * 
-     * Ý tưởng:
-     * 1. Sắp xếp theo order ban đầu.
+     *      * 1. Sắp xếp theo order ban đầu.
      * 2. Tìm phần tử cần di chuyển, đưa nó đến vị trí mới.
      * 3. Cập nhật lại giá trị order theo thứ tự mới.
      */
@@ -180,7 +179,7 @@ public class Level5Service {
     /**
      * 5.9: Cộng dồn tất cả các giá trị số (Number) theo từng key trong danh sách các map.
      * 
-     * Ý tưởng: Với mỗi map, duyệt qua từng entry, nếu value là số thì cộng dồn vào result.
+     * Với mỗi map, duyệt qua từng entry, nếu value là số thì cộng dồn vào result.
      */
     public Map<String, Integer> sumAll(List<Map<String, Object>> list) {
         if (list == null) {
@@ -202,7 +201,7 @@ public class Level5Service {
     /**
      * 5.10: Tạo chuỗi hoàn chỉnh từ template chứa placeholder {{key}}, thay thế bằng giá trị từ map.
      * 
-     * Ý tưởng: Với mỗi entry trong params, tìm {{key}} trong template và thay bằng value tương ứng.
+     * Với mỗi entry trong params, tìm {{key}} trong template và thay bằng value tương ứng.
      */
     public String generateFromTemplate(String template, Map<String, String> params) {
         if (template == null) {

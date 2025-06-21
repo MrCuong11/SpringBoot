@@ -17,8 +17,6 @@ public class Level4Service {
      * Ý tưởng: Duyệt qua mảng, so sánh và đổi chỗ các phần tử liền kề
      * Dừng khi mảng đã sắp xếp (không còn đổi chỗ nào)
      * 
-     * @param numbers Danh sách số cần sắp xếp
-     * @return Số lần lặp đã thực hiện
      */
     public int countBubbleSortIterations(List<Integer> numbers) {
         if (numbers == null || numbers.isEmpty()) {
@@ -59,9 +57,6 @@ public class Level4Service {
      * Nếu target = 0: tìm thấy 1 cách
      * Nếu index = length: hết phần tử, trả về 0
      * 
-     * @param numbers Danh sách số
-     * @param target Tổng mục tiêu
-     * @return Số cách chọn
      */
     public int countSubsequencesWithSum(List<Integer> numbers, int target) {
         if (numbers == null) {
@@ -104,8 +99,6 @@ public class Level4Service {
      * Thử từ độ dài lớn nhất xuống nhỏ nhất
      * Với mỗi độ dài, tạo tất cả chuỗi con có thể và kiểm tra có trong tất cả chuỗi không
      * 
-     * @param strings Danh sách chuỗi
-     * @return Độ dài chuỗi con chung dài nhất
      */
     public int findLongestCommonSubstringLength(List<String> strings) {
         if (strings == null || strings.isEmpty()) {
@@ -152,8 +145,6 @@ public class Level4Service {
      * dp[i] = max(dp[i-1], dp[i-2] + numbers[i])
      * Tại mỗi vị trí: chọn phần tử hiện tại + phần tử cách 2 vị trí, hoặc bỏ qua
      * 
-     * @param numbers Danh sách số
-     * @return Tổng lớn nhất
      */
     public int findMaxSumNoConsecutive(List<Integer> numbers) {
         if (numbers == null || numbers.isEmpty()) {
@@ -183,8 +174,6 @@ public class Level4Service {
      * Ý tưởng: Sắp xếp mảng
      * Có 2 trường hợp: 3 số lớn nhất hoặc 2 số nhỏ nhất × số lớn nhất
      * 
-     * @param numbers Danh sách số
-     * @return Tích lớn nhất
      */
     public int maxProductOfThree(List<Integer> numbers) {
         if (numbers == null || numbers.size() < 3) {
@@ -209,8 +198,7 @@ public class Level4Service {
      * Ý tưởng: Đếm số từ duy nhất trong mỗi chuỗi
      * Sắp xếp theo: số từ duy nhất (giảm) → độ dài chuỗi (giảm) → thứ tự từ điển
      * 
-     * @param strings Danh sách chuỗi
-     * @return Danh sách đã sắp xếp
+
      */
     public List<String> sortStringsByDistinctWords(List<String> strings) {
         if (strings == null) {
@@ -257,8 +245,6 @@ public class Level4Service {
      * Điều kiện: không được tạo tổng liền kề (sum+num-1, sum+num+1)
      * Tìm số nhỏ nhất không có trong tập tổng
      * 
-     * @param numbers Danh sách số
-     * @return Tổng nhỏ nhất không thể tạo được
      */
     public int findSmallestMissingSumNoConsecutive(List<Integer> numbers) {
          if (numbers == null) return 1;
@@ -292,8 +278,6 @@ public class Level4Service {
      * Thêm điều kiện: arr[i] - arr[j] == 1
      * Chỉ nối tiếp khi hiệu số chính xác bằng 1
      * 
-     * @param numbers Danh sách số
-     * @return Độ dài chuỗi con tăng dài nhất
      */
     public int longestIncreasingSubsequenceDiffOne(List<Integer> numbers) {
         if (numbers == null || numbers.isEmpty()) return 0;
@@ -323,9 +307,6 @@ public class Level4Service {
      * Đếm số chuỗi con chung giữa 2 chuỗi
      * Trả về cặp chuỗi có nhiều chuỗi con chung nhất
      * 
-     * @param strings Danh sách chuỗi
-     * @param k Độ dài chuỗi con
-     * @return Cặp chuỗi có nhiều chuỗi con chung nhất
      */
     public List<String> findLargestSubstringOverlap(List<String> strings, int k) {
         if (strings == null || strings.size() < 2) {

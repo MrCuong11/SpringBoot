@@ -24,6 +24,10 @@ public class CategoryController {
 
     @GetMapping("/avg-rental-duration")
     @SecurityRequirement(name = "bearerAuth")
+    /**
+     * Lấy thời gian thuê trung bình của phim theo từng thể loại
+     * Output: List<CategoryAvgRentalDurationDto> - Danh sách thể loại với thời gian thuê trung bình
+     */
     public List<CategoryAvgRentalDurationDto> getCategoryAvgRentalDuration() {
         return categoryService.getCategoryAvgRentalDuration().stream()
                 .map(c -> new CategoryAvgRentalDurationDto(c.getCategoryName(), c.getAvgRentalDuration()))

@@ -19,6 +19,11 @@ public class Level2Controller {
     }
 
     @PostMapping("/second-largest")
+    /**
+     * Tìm số lớn thứ hai trong danh sách
+     * Input: List<Integer> - Danh sách các số nguyên
+     * Output: String - Số lớn thứ hai hoặc thông báo nếu tất cả số bằng nhau
+     */
     public ResponseEntity<String> findSecondLargest(@RequestBody List<Integer> numbers) {
         try {
             Integer secondLargest = level2Service.findSecondLargest(numbers);
@@ -32,6 +37,11 @@ public class Level2Controller {
     }
 
     @PostMapping("/longest-word")
+    /**
+     * Tìm từ dài nhất trong danh sách từ
+     * Input: List<String> - Danh sách các từ
+     * Output: String - Từ dài nhất trong danh sách
+     */
     public ResponseEntity<String> findLongestWord(@RequestBody List<String> words) {
         try {
             String longestWord = level2Service.findLongestWord(words);
@@ -42,6 +52,11 @@ public class Level2Controller {
     }
 
     @PostMapping("/longest-common-subsequence")
+    /**
+     * Tìm chuỗi con chung dài nhất giữa hai chuỗi
+     * Input: string1 (String), string2 (String) - Hai chuỗi cần tìm chuỗi con chung
+     * Output: String - Chuỗi con chung dài nhất
+     */
     public ResponseEntity<String> findLongestCommonSubsequence(
             @RequestParam String string1,
             @RequestParam String string2) {
@@ -54,6 +69,11 @@ public class Level2Controller {
     }
 
     @PostMapping("/sum-divisible-by-3-and-5")
+    /**
+     * Tính tổng các số chia hết cho cả 3 và 5
+     * Input: List<Integer> - Danh sách các số nguyên
+     * Output: String - Tổng các số chia hết cho cả 3 và 5
+     */
     public ResponseEntity<String> sumDivisibleBy3And5(@RequestBody List<Integer> numbers) {
         try {
             int sum = level2Service.sumDivisibleBy3And5(numbers);
@@ -64,6 +84,11 @@ public class Level2Controller {
     }
 
     @PostMapping("/max-subarray-sum")
+    /**
+     * Tìm tổng lớn nhất của một dãy con liên tiếp (Kadane's algorithm)
+     * Input: List<Integer> - Danh sách các số nguyên
+     * Output: String - Tổng lớn nhất của dãy con liên tiếp
+     */
     public ResponseEntity<String> findMaxSubarraySum(@RequestBody List<Integer> numbers) {
         try {
             int maxSum = level2Service.findMaxSubarraySum(numbers);
