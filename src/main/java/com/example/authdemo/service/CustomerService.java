@@ -51,4 +51,8 @@ public class CustomerService {
     public int updateEmailForHorrorLovers() {
         return customerRepository.updateEmailForHorrorLovers();
     }
+
+    public int updateAddressForSameCityCustomers() {
+        return customerRepository.updateAddressForSameCityCustomers();
+    }
 } 

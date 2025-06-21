@@ -107,4 +107,22 @@ public class FilmController {
         int updatedCount = filmService.updateRentalRateForPG13LongFilms();
         return new UpdateResultDto(updatedCount, "Successfully updated rental rate to $3.50 for " + updatedCount + " PG-13 films longer than 2 hours");
     }
+
+    @PutMapping("/update-rental-duration-scifi-2010")
+    public UpdateResultDto updateRentalDurationForSciFi2010() {
+        int updatedCount = filmService.updateRentalDurationForSciFi2010();
+        return new UpdateResultDto(updatedCount, "Successfully updated rental duration to film length for " + updatedCount + " Sci-Fi films from 2010");
+    }
+
+    @PutMapping("/update-rental-rate-comedy-2007-plus")
+    public UpdateResultDto updateRentalRateForComedy2007Plus() {
+        int updatedCount = filmService.updateRentalRateForComedy2007Plus();
+        return new UpdateResultDto(updatedCount, "Successfully updated rental rate for " + updatedCount + " Comedy films from 2007 onwards (15% decrease)");
+    }
+
+    @PutMapping("/update-rental-rate-g-short")
+    public UpdateResultDto updateRentalRateForGShortFilms() {
+        int updatedCount = filmService.updateRentalRateForGShortFilms();
+        return new UpdateResultDto(updatedCount, "Successfully updated rental rate to $1.50 for " + updatedCount + " G-rated films shorter than 1 hour");
+    }
 } 

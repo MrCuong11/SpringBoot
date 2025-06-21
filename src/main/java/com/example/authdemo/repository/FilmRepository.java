@@ -173,4 +173,33 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
     @Transactional
     @Query(value = "UPDATE film SET rental_rate = 3.50 WHERE rating = 'PG-13' AND length > 120", nativeQuery = true)
     int updateRentalRateForPG13LongFilms();
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE film SET rental_duration = length WHERE film_id IN ( " +
+            "    SELECT f.film_id " +
+            "    FROM film f " +
+            "    JOIN film_category fc ON f.film_id = fc.film_id " +
+            "    JOIN category c ON fc.category_id = c.category_id " +
+            "    WHERE c.name = 'Sci-Fi' " +
+            "      AND f.release_year = 2010 " +
+            ")", nativeQuery = true)
+    int updateRentalDurationForSciFi2010();
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE film SET rental_rate = rental_rate * 0.85 WHERE film_id IN ( " +
+            "    SELECT f.film_id " +
+            "    FROM film f " +
+            "    JOIN film_category fc ON f.film_id = fc.film_id " +
+            "    JOIN category c ON fc.category_id = c.category_id " +
+            "    WHERE c.name = 'Comedy' " +
+            "      AND f.release_year >= 2007 " +
+            ")", nativeQuery = true)
+    int updateRentalRateForComedy2007Plus();
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE film SET rental_rate = 1.50 WHERE rating = 'G' AND length < 60", nativeQuery = true)
+    int updateRentalRateForGShortFilms();
 } 

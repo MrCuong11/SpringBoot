@@ -94,4 +94,10 @@ public class CustomerController {
         int updatedCount = customerService.updateEmailForHorrorLovers();
         return new UpdateResultDto(updatedCount, "Successfully updated email for " + updatedCount + " horror movie lovers");
     }
+
+    @PutMapping("/update-address-same-city")
+    public UpdateResultDto updateAddressForSameCityCustomers() {
+        int updatedCount = customerService.updateAddressForSameCityCustomers();
+        return new UpdateResultDto(updatedCount, "Successfully updated address for " + updatedCount + " customers living in same city with same last name");
+    }
 } 

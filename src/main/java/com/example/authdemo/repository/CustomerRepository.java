@@ -182,4 +182,16 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
             "      AND r.rental_date <  '2022-11-01' " +
             ")", nativeQuery = true)
     int updateEmailForHorrorLovers();
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE customer SET address = CONCAT(address, 'samecity') WHERE customer_id IN ( " +
+            "    SELECT c1.customer_id " +
+            "    FROM customer c1 " +
+            "    JOIN customer c2 " +
+            "      ON c1.last_name = c2.last_name " +
+            "     AND c1.city_id = c2.city_id " +
+            "     AND c1.customer_id <> c2.customer_id " +
+            ")", nativeQuery = true)
+    int updateAddressForSameCityCustomers();
 } 
