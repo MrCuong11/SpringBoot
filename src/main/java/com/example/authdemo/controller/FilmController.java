@@ -9,8 +9,10 @@ import com.example.authdemo.dto.FilmRentedByManyOnceDto;
 import com.example.authdemo.dto.FilmRentedByAllActionCustomersDto;
 import com.example.authdemo.dto.FilmRepeatRentalByCustomerDto;
 import com.example.authdemo.dto.FilmTitleDto;
+import com.example.authdemo.dto.UpdateResultDto;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -74,5 +76,17 @@ public class FilmController {
         return filmService.getFilmsRentedMoreThan100TimesAndNeverByGCustomers().stream()
                 .map(f -> new FilmTitleDto(f.getTitle()))
                 .collect(Collectors.toList());
+    }
+
+    @PutMapping("/update-rental-rate-popular")
+    public UpdateResultDto updateRentalRateForPopularFilms() {
+        int updatedCount = filmService.updateRentalRateForPopularFilms();
+        return new UpdateResultDto(updatedCount, "Successfully updated rental rate for " + updatedCount + " popular films (10% increase)");
+    }
+
+    @PutMapping("/update-rental-duration-popular")
+    public UpdateResultDto updateRentalDurationForPopularFilms() {
+        int updatedCount = filmService.updateRentalDurationForPopularFilms();
+        return new UpdateResultDto(updatedCount, "Successfully updated rental duration for " + updatedCount + " popular films (5% increase)");
     }
 } 

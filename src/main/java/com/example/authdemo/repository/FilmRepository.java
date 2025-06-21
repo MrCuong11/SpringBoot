@@ -3,6 +3,8 @@ package com.example.authdemo.repository;
 import com.example.authdemo.entity.Film;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.repository.query.Param;
 import java.util.List;
 
@@ -117,4 +119,29 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
     interface FilmTitleProjection {
         String getTitle();
     }
+
+//update không cần projection vì chỉ cần trả về số lượng cập nhật thành công
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE film SET rental_rate = rental_rate * 1.10 WHERE film_id IN ( " +
+            "    SELECT f.film_id " +
+            "    FROM film f " +
+            "    JOIN inventory i ON f.film_id = i.film_id " +
+            "    JOIN rental r ON i.inventory_id = r.inventory_id " +
+            "    GROUP BY f.film_id " +
+            "    HAVING COUNT(*) > 100 " +
+            ")", nativeQuery = true)
+    int updateRentalRateForPopularFilms();
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE film SET rental_duration = ROUND(rental_duration * 1.05) WHERE film_id IN ( " +
+            "    SELECT f.film_id " +
+            "    FROM film f " +
+            "    JOIN inventory i ON f.film_id = i.film_id " +
+            "    JOIN rental r ON i.inventory_id = r.inventory_id " +
+            "    GROUP BY f.film_id " +
+            "    HAVING COUNT(*) > 5 " +
+            ")", nativeQuery = true)
+    int updateRentalDurationForPopularFilms();
 } 

@@ -41,4 +41,12 @@ public class FilmService {
     public List<FilmRepository.FilmTitleProjection> getFilmsRentedMoreThan100TimesAndNeverByGCustomers() {
         return filmRepository.findFilmsRentedMoreThan100TimesAndNeverByGCustomers();
     }
+
+    public int updateRentalRateForPopularFilms() {
+        return filmRepository.updateRentalRateForPopularFilms();
+    }
+
+    public int updateRentalDurationForPopularFilms() {
+        return filmRepository.updateRentalDurationForPopularFilms();
+    }
 } 
