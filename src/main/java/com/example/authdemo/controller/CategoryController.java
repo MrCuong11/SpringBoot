@@ -3,6 +3,7 @@ package com.example.authdemo.controller;
 import com.example.authdemo.dto.CategoryAvgRentalDurationDto;
 import com.example.authdemo.service.CategoryService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/categories")
 @SecurityRequirement(name = "bearerAuth")
+@PreAuthorize("hasRole('ADMIN')")
 public class CategoryController {
     private final CategoryService categoryService;
 

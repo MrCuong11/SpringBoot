@@ -11,6 +11,7 @@ import com.example.authdemo.dto.CustomerNameDto;
 import com.example.authdemo.dto.UpdateResultDto;
 import com.example.authdemo.service.CustomerService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @SecurityRequirement(name = "bearerAuth")
+@PreAuthorize("hasRole('ADMIN')")
 @RequestMapping("/api/customers")
 public class CustomerController {
     private final CustomerService customerService;
