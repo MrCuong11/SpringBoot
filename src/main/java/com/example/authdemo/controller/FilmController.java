@@ -11,11 +11,11 @@ import com.example.authdemo.dto.FilmRepeatRentalByCustomerDto;
 import com.example.authdemo.dto.FilmTitleDto;
 import com.example.authdemo.dto.UpdateResultDto;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,16 +32,20 @@ public class FilmController {
     }
 
     @GetMapping
-    /**
-     * Lấy danh sách tất cả phim với thông tin cơ bản
-     * Input: Không có (GET request)
-     * Output: List<FilmDto> - Danh sách phim với tên, giá thuê và chi phí thay thế
-     */
-    public List<FilmDto> getAllFilms() {
-        return filmService.getAllFilms().stream()
-                .map(film -> new FilmDto(film.getTitle(), film.getRentalRate(), film.getReplacementCost()))
-                .collect(Collectors.toList());
-    }
+/**
+ * Lấy danh sách tất cả phim với thông tin cơ bản và hỗ trợ phân trang
+ * Input: page, size - các tham số phân trang từ URL
+ * Output: Page<FilmDto> - Một trang của danh sách phim với thông tin phân trang
+ */
+public Page<FilmDto> getAllFilms(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size) {
+
+    Pageable pageable = PageRequest.of(page, size);
+
+    return filmService.getAllFilms(pageable)
+            .map(film -> new FilmDto(film.getTitle(), film.getRentalRate(), film.getReplacementCost()));
+}
 
     @GetMapping("/top-rented")
     /**

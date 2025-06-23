@@ -2,6 +2,8 @@ package com.example.authdemo.service;
 
 import com.example.authdemo.entity.Film;
 import com.example.authdemo.repository.FilmRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,8 +16,8 @@ public class FilmService {
         this.filmRepository = filmRepository;
     }
 
-    public List<Film> getAllFilms() {
-        return filmRepository.findAll();
+    public Page<Film> getAllFilms(Pageable pageable) {
+        return filmRepository.findAll(pageable);
     }
 
     public List<FilmRepository.TopRentedFilmProjection> getTop5MostRentedFilms() {
